@@ -114,6 +114,14 @@ again:
 }
 @end
 @implementation MyTCPServer
+-(id)init
+{
+  self=[super init];
+  if (self!=nil) {
+    _connections=[NSMutableArray array];
+  }
+  return self;
+}
 
 -(void)removeConn:(MyConnection*)conn
 {
@@ -167,7 +175,6 @@ again:
 - (void)start
 {
   int myport;
-  _connections=[NSMutableArray array];
   _servsock=createTCPServerSocket( 9100, &myport );
   _servsource = createSockSource(_servsock, DISPATCH_SOURCE_TYPE_READ, ^{
     //we don't need weak self here because the singleton server lives forever
